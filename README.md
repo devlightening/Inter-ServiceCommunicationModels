@@ -1,4 +1,3 @@
-````
 -----
 
 # Inter-ServiceCommunicationModels
