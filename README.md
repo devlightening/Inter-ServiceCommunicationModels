@@ -1,18 +1,19 @@
+````
 -----
 
 # Inter-ServiceCommunicationModels
 
-Bu depo, mikroservis mimarisinde kullanılan üç farklı iletişim yöntemini karşılaştırmalı olarak sergileyen bir projedir. Proje, **gRPC**, **HTTP** ve **Mesaj Broker'ı** tabanlı iletişim modellerini .NET ortamında nasıl uygulayabileceğinizi gösterir.
+This repository is a project that comparatively demonstrates three different communication methods used in microservice architecture. The project shows how you can implement **gRPC**, **HTTP**, and **Message Broker** based communication models in a .NET environment.
 
-## İletişim Modelleri
+## Communication Models
 
-Proje, üç ana klasöre ayrılmıştır: `gRPC`, `http` ve `MessageBroker`. Her klasör, iki servis (`ServiceA` ve `ServiceB`) arasında farklı bir iletişim modelini kullanan örnekler içerir.
+The project is divided into three main folders: `gRPC`, `http`, and `MessageBroker`. Each folder contains examples using a different communication model between two services (`ServiceA` and `ServiceB`).
 
-### 1\. HTTP (Senkron)
+### 1. HTTP (Synchronous)
 
-Bu model, geleneksel RESTful API çağrıları üzerinden senkron iletişimi gösterir. İstemci, sunucuya bir istek gönderir ve yanıtı bekler. Bu yöntem, anlaşılması kolaydır ancak servisler arasında sıkı bir bağımlılık oluşturabilir.
+This model demonstrates synchronous communication through traditional RESTful API calls. The client sends a request to the server and waits for a response. This method is easy to understand but can create a tight coupling between services.
 
-#### Diyagram: Senkron HTTP İletişimi
+#### Diagram: Synchronous HTTP Communication
 
 ```mermaid
 sequenceDiagram
@@ -30,13 +31,13 @@ sequenceDiagram
     DatabaseB-->>ServiceB: Success
     ServiceB-->>ServiceA: HTTP 200 OK
     ServiceA-->>Client: HTTP 200 OK
-```
+````
 
-### 2\. gRPC (Senkron)
+### 2\. gRPC (Synchronous)
 
-gRPC, Google tarafından geliştirilen yüksek performanslı, dil bağımsız bir RPC (Remote Procedure Call) çerçevesidir. Bu model, HTTP'ye göre daha hızlı ve daha az bant genişliği kullanır.
+gRPC is a high-performance, language-agnostic RPC (Remote Procedure Call) framework developed by Google. This model is faster and uses less bandwidth than HTTP.
 
-#### Diyagram: Senkron gRPC İletişimi
+#### Diagram: Synchronous gRPC Communication
 
 ```mermaid
 sequenceDiagram
@@ -56,11 +57,11 @@ sequenceDiagram
     ServiceA-->>Client: gRPC Response
 ```
 
-### 3\. Mesaj Broker'ı (Asenkron)
+### 3\. Message Broker (Asynchronous)
 
-Bu model, servislerin bir mesaj kuyruğu üzerinden dolaylı olarak iletişim kurmasını sağlar. Bir servis bir olay yayınlar, diğer servisler bu olayı dinler ve işler. Bu yaklaşım, servisler arasında gevşek bağlılık, yüksek ölçeklenebilirlik ve hata toleransı sağlar.
+This model enables services to communicate indirectly through a message queue. One service publishes an event, and other services listen for and process this event. This approach provides loose coupling, high scalability, and fault tolerance between services.
 
-#### Diyagram: Asenkron Mesaj İletişimi
+#### Diagram: Asynchronous Message Communication
 
 ```mermaid
 sequenceDiagram
@@ -84,34 +85,39 @@ sequenceDiagram
     DatabaseB-->>ServiceB: Success
 ```
 
-## Kullanılan Teknolojiler
+## Technologies Used
 
-  - **.NET 7/8:** Proje, .NET platformunda geliştirilmiştir.
-  - **gRPC:** Yüksek performanslı senkron iletişim için kullanılır.
-  - **HTTP/REST:** Geleneksel senkron iletişim için kullanılır.
-  - **MongoDB:** Servisler için veri deposu olarak kullanılan NoSQL veritabanıdır.
-  - **MassTransit:** RabbitMQ ile çalışmayı kolaylaştıran bir dağıtık uygulama framework'üdür.
-  - **RabbitMQ:** Asenkron iletişim için kullanılan bir mesaj broker'ıdır.
-  - **Docker:** RabbitMQ'yu yerel ortamda kolayca çalıştırmak için kullanılır.
+  - **.NET 7/8:** The project is developed on the .NET platform.
+  - **gRPC:** Used for high-performance synchronous communication.
+  - **HTTP/REST:** Used for traditional synchronous communication.
+  - **MongoDB:** A NoSQL database used as a data store for the services.
+  - **MassTransit:** A distributed application framework that simplifies working with RabbitMQ.
+  - **RabbitMQ:** A message broker used for asynchronous communication.
+  - **Docker:** Used to easily run RabbitMQ in a local environment.
 
-## Başlangıç Kılavuzu
+## Getting Started
 
-### Önkoşullar
+### Prerequisites
 
   - [.NET SDK](https://dotnet.microsoft.com/download)
   - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
-### Projeyi Çalıştırma
+### Running the Project
 
-1.  **Depoyu Klonlayın:**
+1.  **Clone the repository:**
     `git clone https://github.com/devlightening/Inter-ServiceCommunicationModels.git`
     `cd Inter-ServiceCommunicationModels`
 
-2.  **RabbitMQ'yu Çalıştırın (Mesaj Broker modeli için):**
+2.  **Run RabbitMQ (for the Message Broker model):**
     `docker run -d --hostname my-rabbit --name rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3-management`
 
-3.  **Servisleri Başlatın:**
-    Visual Studio'da çözümü açın ve istediğiniz iletişim modeli için (`http`, `gRPC` veya `MessageBroker`) ilgili servisleri başlatın. `Multiple startup projects` ayarını kullanarak servisleri eş zamanlı çalıştırabilirsiniz.
+3.  **Start the services:**
+    Open the solution in Visual Studio and start the relevant services for your desired communication model (`http`, `gRPC`, or `MessageBroker`). You can use the `Multiple startup projects` setting to run the services simultaneously.
 
-4.  **API'lere Erişin:**
-    Servislerle etkileşim kurmak ve iletişim modellerini çalışırken gözlemlemek için Swagger UI veya Postman gibi araçları kullanabilirsiniz.
+4.  **Access the APIs:**
+    You can use tools like Swagger UI or Postman to interact with the services and observe the communication models in action.
+
+<!-- end list -->
+
+```
+```
